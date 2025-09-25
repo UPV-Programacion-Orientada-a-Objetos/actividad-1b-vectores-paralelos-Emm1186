@@ -8,23 +8,23 @@ stock = int      |cantidad de stock
 precio = float   |precio unitario  */  
 
  //Aquí creé los 4 arreglos del tamañño maximo que son 100 o sea 99 índices
-const int toromax = 100;
-int codigo[toromax];
-std :: string nombre[toromax];
-int stock[toromax];
-float precio[toromax];
+const int tamano = 100;
+int codigo[tamano];
+std :: string nombre[tamano];
+int stock[tamano];
+float precio[tamano];
 int numProductos = 5; //because iniciamos con 5 productos
 
 //opcion 1. Saber si existe o no
 //void porque no devuelve ningun valor
 void consultarProducto() {
-    int cod;
+    int code;
     std :: cout << "\nIngrese el codigo del producto a consultar: ";
-    std :: cin >> cod;
+    std :: cin >> code;
 
     bool encontrado = false;
     for (int i = 0; i < numProductos; i++) {
-        if (codigo[i] == cod) {
+        if (codigo[i] == code) {
             std :: cout << "\nInformacion del Producto:\n";
             std :: cout << "Codigo: " << codigo[i] << std :: endl;
             std :: cout << "Nombre: " << nombre[i] << std :: endl;
@@ -37,19 +37,19 @@ void consultarProducto() {
 
     //mensaje de error, el ! convierte el valor booleano al contrario seh
     if (!encontrado) {
-        std :: cout << "\nERROR: El producto con codigo " << cod << " no existe.\n";
+        std :: cout << "\nERROR: El producto con codigo " << code << " no existe.\n";
     }
 }
 
 // Opción 2: Actualizar inventario
 void actualizarInventario() {
-    int cod;
+    int code;
     std::cout << "\nIngrese el codigo del producto a actualizar: ";
-    std::cin >> cod;
+    std::cin >> code;
 
     bool encontrado = false;
     for (int i = 0; i < numProductos; i++) {
-        if (codigo[i] == cod) {
+        if (codigo[i] == code) {
             std::cout << "Producto encontrado: " << nombre[i] << std::endl;
             std::cout << "Cantidad actual del stock: " << stock[i] << std::endl;
 
@@ -57,7 +57,7 @@ void actualizarInventario() {
             std::cout << "Ingrese una nueva cantidad del stock: ";
             std::cin >> newCantidad;
 
-            stock[i] = newCantidad;  // aquí se actualiza
+            stock[i] = newCantidad;  // aqui se actualiza
             std::cout << "Inventario actualizado correctamente.\n";
             encontrado = true;
             break;
@@ -65,11 +65,36 @@ void actualizarInventario() {
     }
 
     if (!encontrado) {
-        std::cout << "El producto con codigo " << cod << " no existe en el inventario.\n";
+        std::cout << "El producto con codigo " << code << " no existe en el inventario.\n";
     }
 }
 
+//opcion 3. mostrar una lista de productos existentes asi bien potente (sale chueca)
+void generarReporte() {
+    std::cout << "\n--- Reporte de Inventario ---\n";
+    std::cout << "Codigo    | Nombre                 | Stock | Precio\n";
+    std::cout << "---------------------------------------------------\n";
 
+    for (int i = 0; i < numProductos; i++) {
+        std::cout << codigo[i] << "       | " << nombre[i] << "       | " << stock[i] << "    | " << "$" << precio[i] << "\n";
+    }
+
+    std::cout << "---------------------------------------------------\n";
+    std::cout << "--- Fin del Reporte ---\n";
+}
+
+void productoMasCaro() {
+       int indiceMayor = 0; // empezamos suponiendo que el más caro es el primero
+
+    // Recorremos todos los productos
+    for (int i = 1; i < numProductos; i++) {
+        if (precio[i] > precio[indiceMayor]) {
+            indiceMayor = i; // guardamos la posición del más caro
+        }
+    }
+
+    std::cout << "\nEl producto mas caro es: " << nombre[indiceMayor] << " con un precio de $" << precio[indiceMayor] << "\n";
+}
 
 int main() {
    
@@ -120,36 +145,22 @@ int main() {
                 actualizarInventario();
                 break;
             case 3:
-                std :: cout << "reporte";
+                generarReporte();      
                 break;
             case 4:
-                std :: cout << "El weo mas caro";
+                productoMasCaro();
                 break;
             case 5:
-                std :: cout << "Salier";
+                std :: cout << "Apagando funcionamiento total de la maquina...";
                 break;
             default:
                 std :: cout << "\nOpción invalida. Intente de nuevo.\n";
         }
 
         if (opcion != 5){
-
-        
             std :: cout << "\n--- Menu principal ---\n";
         }
-
     }while (opcion != 5);
 
-
-
-
-
-
-
-
-
-
-
-   
     return 0;
 }
